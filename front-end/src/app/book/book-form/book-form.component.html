@@ -1,0 +1,38 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+        <ul>
+            <li><span>From: </span><span>{{message.from}}</span></li>
+            <li><span>To: </span><span>{{message.to}}</span></li>
+            <li><span>Title: </span><span>{{message.title}}</span></li>
+            <li><span>Type: </span><span>{{message.type}}</span></li>
+            <li><span>Theme: </span><span>{{message.theme}}</span></li>
+            <li><span>Text</span><span>{{message.text}}</span></li>
+            <li><span>Name: </span><span>{{message.name}}</span></li>
+            <li><span>Email: </span><span>{{message.email}}</span></li>
+            <li><span>Phone: </span><span>{{message.phone}}</span></li>
+            <li><span>createdAt: </span><span>{{message.createdAt | date: 'dd-MM-yyyy'}}</span></li>
+            <li><span>updatedAt: </span><span>{{message.createdAt | date: 'dd-MM-yyyy'}}</span></li>
+        </ul>
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button mat-button
+                class="mr-8"
+                (click)="matDialogRef.close()"
+                aria-label="Delete"
+                matTooltip="Delete">
+            CLOSE
+        </button>
+
+    </div>
+</div>

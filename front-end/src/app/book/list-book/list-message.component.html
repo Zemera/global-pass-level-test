@@ -1,0 +1,83 @@
+<mat-table #table matSort [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let message">
+            <mat-checkbox [(ngModel)]="checkboxes[message._id]" (ngModelChange)="onSelectedChange(message._id)"
+                          (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="from">
+        <mat-header-cell *matHeaderCellDef >From</mat-header-cell>
+        <mat-cell *matCellDef="let message">
+            <p [ngClass]="{'new-message': message.new}" class="text-truncate font-weight-600"> {{message.type === _messageType.CONTACT_FORM ? message.name : (message.from | json)}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="to">
+        <mat-header-cell *matHeaderCellDef > To</mat-header-cell>
+        <mat-cell *matCellDef="let message">
+            <p [ngClass]="{'new-message': message.new}" class="text-truncate font-weight-600">{{message.type === _messageType.CONTACT_FORM ? 'SUPER ADMIN' : (message.to | json)}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm mat-sort-header> Type of message</mat-header-cell>
+        <mat-cell *matCellDef="let message" fxHide fxShow.gt-sm>
+            <p class="email text-truncate" [ngClass]="{'new-message': message.new}">
+                {{_messageType[message.type]}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>createdAt</mat-header-cell>
+        <mat-cell *matCellDef="let message" fxHide fxShow.gt-sm>
+            <p class="email text-truncate" [ngClass]="{'new-message': message.new}">
+                {{message.createdAt | date: 'dd-MM-yyyy'}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="buttons">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let message">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <!--<button mat-icon-button (click)="$event.stopPropagation();toggleStar(contact._id)" aria-label="Toggle star">
+                    <mat-icon class="amber-fg" *ngIf="user.starred.includes(contact._id)">star</mat-icon>
+                    <mat-icon class="secondary-text" *ngIf="!user.starred.includes(contact._id)">star_border</mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="deleteCity(city)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Remove</span>
+                    </button>
+                </mat-menu> -->
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let message; columns: displayedColumns;"
+             class="message"
+             (click)="editMessage(message)"
+             matRipple
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+
