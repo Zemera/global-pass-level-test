@@ -1,0 +1,68 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+
+node_modules
+.vscode
+.idea
+
+# Compiled output
+/front-end/dist
+/front-end/tmp
+/front-end/out-tsc
+/front-end/bazel-out
+
+/book-rest-api/dist
+/book-rest-api/tmp
+/book-rest-api/out-tsc
+/book-rest-api/bazel-out
+
+
+# Node
+/book-rest-api/node_modules
+/book-rest-api/npm-debug.log
+/book-rest-api/yarn-error.log
+
+/front-end/node_modules
+/front-end/npm-debug.log
+/front-end/yarn-error.log
+
+
+
+# IDEs and editors
+/book-rest-api/.idea/
+/book-rest-api/.project
+/book-rest-api/.classpath
+/book-rest-api/.c9/
+
+/front-end/.idea/
+/front-end/.project
+/front-end/.classpath
+/front-end/.c9/
+*.launch
+/book-rest-api/.settings/
+/front-end/.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+/book-rest-api/.vscode/*
+/front-end/.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+/book-rest-api/.history/*
+/front-end/.history/*
+
+# Miscellaneous
+/front-end/.angular/cache
+/front-end/.sass-cache/
+/front-end/connect.lock
+/front-end/coverage
+/book-rest-api/coverage
+/front-end/libpeerconnection.log
+/front-end/testem.log
+/front-end/typings
+
+# System files
+.DS_Store
+Thumbs.db
