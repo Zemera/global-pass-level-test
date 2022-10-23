@@ -7,7 +7,6 @@
             </button>
         </mat-toolbar-row>
     </mat-toolbar>
-
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
         <ul>
             <li><span>From: </span><span>{{message.from}}</span></li>
@@ -23,16 +22,9 @@
             <li><span>updatedAt: </span><span>{{message.createdAt | date: 'dd-MM-yyyy'}}</span></li>
         </ul>
     </div>
-
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
-
-        <button mat-button
-                class="mr-8"
-                (click)="matDialogRef.close()"
-                aria-label="Delete"
-                matTooltip="Delete">
+        <button mat-button class="mr-8" (click)="matDialogRef.close()" aria-label="Delete" matTooltip="Delete">
             CLOSE
         </button>
-
     </div>
 </div>
