@@ -10,7 +10,7 @@ import { BaseService } from './service.base';
     providedIn: 'root'
 })
 export class BookService extends BaseService<Book> {
-    public onNewBook: Subject<Book>
+    public onNewBook: Subject<Book>;
     books: Book[] = [
         new Book({
             description: 'first description of book',
@@ -39,8 +39,7 @@ export class BookService extends BaseService<Book> {
             title: 'the mindset of poutine',
             id: 3
         }),
-    ]
-
+    ];
     authors: IAuthor[] = [
         { fullName: "essam", id: 1 },
         { fullName: "mvoc", id: 1 },
@@ -52,19 +51,21 @@ export class BookService extends BaseService<Book> {
         this.onNewBook = new Subject<Book>()
     }
 
-    public override list(): Observable<Book[]> {
-        return of(this.books)
-    }
+    // public override list(): Observable<Book[]> {
+    //     return of(this.books)
+    // }
 
     public authorList(): Observable<IAuthor[]> {
-        return of(this.authors)
+        return this
+            .httpClient
+            .get<IAuthor[]>(`${this.url}${this.endpoint}/${environment.authorsListEndPoint}`)
     }
 
-    public override create(item: Book): Observable<Book> {
-        item.id = Math.random();
-        item.author = (this.authors.find(author => author.fullName == (item.author as any)) as IAuthor)
-        return of(item);
-    }
+    // public override create(item: Book): Observable<Book> {
+    //     item.id = Math.random();
+    //     item.author = (this.authors.find(author => author.fullName == (item.author as any)) as IAuthor)
+    //     return of(item);
+    // }
 
 
 }

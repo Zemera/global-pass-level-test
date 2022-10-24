@@ -7,9 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./book.component.scss'],
 })
 export class BookComponent {
-  constructor(  ) {
-  }
+  constructor() {}
 
 
-  
+
 }

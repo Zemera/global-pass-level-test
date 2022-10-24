@@ -5,7 +5,8 @@
 export const environment = {
   production: false ,
   apiHost:'http://localhost:3000/',
-  bookEndPoint:'book',
+  bookEndPoint:'books',
+  authorsListEndPoint:'authors-list',
 };
 
 /*

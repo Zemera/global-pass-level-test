@@ -23,6 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatRadioModule} from '@angular/material/radio';
 import { BookDetailsComponent } from './book-details/book-details.component';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
 const routes: Routes = [
@@ -48,6 +50,8 @@ const routes: Routes = [
 
     imports: [
         CommonModule,
+        MatChipsModule,
+        MatAutocompleteModule,
         RouterModule.forChild(routes),
         MatButtonModule,
         MatFormFieldModule,
