@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import 'rxjs/add/operator/map';
 
 /*
 **** BASE REST API SERVICE ****
 The service provide crud operation 
 */
 
-export class BaseService<T> {
+export abstract class BaseService<T> {
     constructor(
         protected httpClient: HttpClient,
         protected url: string,

@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
@@ -18,48 +14,65 @@ import { Routes, RouterModule } from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
-import { BookCreateModalFormComponent } from './book-create-form/book-create-modal-form.component';
+import { BookCreateModalFormComponent } from './book-create-form/book-create-form.component';
 import { ListBookComponent } from './list-book/book-list.component';
+import { FilterPropretyBookValue } from './list-book/filterBookValue.pipe';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import {MatRadioModule} from '@angular/material/radio';
+import { BookDetailsComponent } from './book-details/book-details.component';
 
 
 const routes: Routes = [
     {
         path: '**',
         component: BookComponent,
+    },
+    {
+        path: '',
+        component: BookComponent,
     }
 ];
 
 @NgModule({
-    
+
     declarations: [
         ListBookComponent,
         BookComponent,
-        BookCreateModalFormComponent
+        BookCreateModalFormComponent,
+        FilterPropretyBookValue,
+        BookDetailsComponent
     ],
 
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
         MatButtonModule,
-        MatCheckboxModule,
-        MatDatepickerModule,
         MatFormFieldModule,
+        MatNativeDateModule,
         MatIconModule,
         MatInputModule,
         MatMenuModule,
         MatRippleModule,
         MatTableModule,
-        MatToolbarModule,
         MatSelectModule,
         MatSortModule,
         MatGridListModule,
         MatListModule,
-        ScrollingModule
+        MatPaginatorModule,
+        ScrollingModule,
+        ReactiveFormsModule, 
+        FormsModule,
+        MatDatepickerModule,
+        MatDialogModule,
+        MatRadioModule
     ],
     providers: [],
     entryComponents: [
         BookCreateModalFormComponent,
     ]
 })
-export class MessageModule {
+export class BookModule {
 }

@@ -1,4 +1,47 @@
-.new-message {
+p {
+    font-family: Lato;
+}
+
+.search-pannel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 500px;
+    min-width: 300px;
+}
+
+.mat-table {
+    max-height: 500px;
+    width: 100%;
+    display: table;
+}
+
+th,
+.mat-header-cell {
     font-weight: 700;
-    color: green;
+    color: black;
+    font-size: 18px;
+}
+
+#add-button {
+    right: 20px;
+    bottom: 10px;
+    left: auto;
+    position: absolute;
+}
+
+.mat-row .mat-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}
+
+.mat-row:hover .mat-cell {
+    border-color: currentColor;
 }

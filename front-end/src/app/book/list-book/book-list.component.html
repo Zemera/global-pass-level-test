@@ -1,48 +1,108 @@
-<mat-form-field appearance="standard">
-    <mat-label>Поиск</mat-label>
-    <input matInput (keyup)="search($event)" placeholder="Поиск в названии и описании" #input>
-</mat-form-field>
+<h3 style="text-align: center;"> GLOBALPLUS TEST CANDITATE </h3>
 
-<div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
-        <!-- Title -->
-        <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Название </th>
-            <td mat-cell *matCellDef="let row"> {{row.title}}</td>
-        </ng-container>
+<form [formGroup]="filterForm">
+    <!-- Filter pannel -->
+    <div class="filter-panel">
+        <div class="search-pannel">
+            <!-- Search pannel -->
+            <div style="text-align:center;">
+                <mat-form-field [style.width]="'400px'">
+                    <mat-label>Поиск</mat-label>
+                    <input matInput formControlName="keyword" placeholder="Поиск в названии или описании" #input>
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-grid-list cols="4" rowHeight="2:1">
+            <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                    <mat-label>Автор</mat-label>
+                    <mat-select formControlName="authors" multiple>
+                        <mat-option *ngFor="let author of books | filterPropretyBookValue:'author'" [value]="author">
+                            {{author}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                    <mat-label>Язык</mat-label>
+                    <mat-select formControlName="langs" multiple>
+                        <mat-option *ngFor="let lang of books | filterPropretyBookValue:'lang'" [value]="lang">
+                            {{lang}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <h4>Cтраницы</h4> <br>
+                <mat-form-field style="max-width: 70px;">
+                    <mat-label>from</mat-label>
+                    <input matInput type="number" placeholder="from" formControlName="from">
+                </mat-form-field>
+                <mat-form-field style="max-width: 70px;">
+                    <mat-label>to</mat-label>
+                    <input matInput type="number" placeholder="to" formControlName="to">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                    <mat-label>Жанр </mat-label>
+                    <mat-select formControlName="genre">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let genre of books | filterPropretyBookValue:'genre'" [value]="genre">
+                            {{genre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
 
-        <!-- Author name Column -->
-        <ng-container matColumnDef="author">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Автор </th>
-            <td mat-cell *matCellDef="let row"> {{row.author.fullName}} </td>
-        </ng-container>
+    <!-- List pannel -->
+    <div class="list-container">
+        <!-- Table  -->
+        <div class="mat-elevation-z8">
+            <mat-table #table [dataSource]="dataSource" matSort>
+                <!-- Title -->
+                <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Название </th>
+                    <td mat-cell *matCellDef="let row"> {{row.title}}</td>
+                </ng-container>
+                <!-- Author name Column -->
+                <ng-container matColumnDef="author">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Автор </th>
+                    <td mat-cell *matCellDef="let row"> {{row.author.fullName}} </td>
+                </ng-container>
+                <!-- Page Column -->
+                <ng-container matColumnDef="pageCount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Число страниц </th>
+                    <td mat-cell *matCellDef="let row"> {{row.pageCount}} </td>
+                </ng-container>
+                <!-- Language Column -->
+                <ng-container matColumnDef="lang">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Язык </th>
+                    <td mat-cell *matCellDef="let row"> {{row.lang.name}} </td>
+                </ng-container>
+                <!-- Genre Column -->
+                <ng-container matColumnDef="genre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Жанр </th>
+                    <td mat-cell *matCellDef="let row"> {{row.genre}} </td>
+                </ng-container>
 
-        <!-- Page Column -->
-        <ng-container matColumnDef="pageCount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Число страниц </th>
-            <td mat-cell *matCellDef="let row"> {{row.pageCount}} </td>
-        </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openDialog(row)"></tr>
+                <!-- Row shown when there is no matching data. -->
+                <!-- <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">Empty</td>
+                </tr> -->
+            </mat-table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users">
+            </mat-paginator>
+        </div>
+    </div>
 
-        <!-- Language Column -->
-        <ng-container matColumnDef="lang">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Язык </th>
-            <td mat-cell *matCellDef="let row"> {{row.lang.name}} </td>
-        </ng-container>
+</form>
 
-        <!-- Genre Column -->
-        <ng-container matColumnDef="genre">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Жанр </th>
-            <td mat-cell *matCellDef="let row"> {{row.genre}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-        <!-- Row shown when there is no matching data. -->
-        <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-        </tr>
-    </table>
-
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-</div>
+<button mat-fab color="primary" (click)="openDialog()" id="add-button" matTooltip="Add book">
+    <i class="material-icons">add</i>
+</button>
