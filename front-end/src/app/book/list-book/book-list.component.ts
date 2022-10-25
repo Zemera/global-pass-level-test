@@ -108,11 +108,11 @@ export class ListBookComponent implements AfterViewInit, OnDestroy {
     }
 
     openDialog(book?: IBook): void {
-        this.dialogRef = this.dialog.open(BookCreateModalFormComponent, {
+       const dialogRef = this.dialog.open(BookCreateModalFormComponent, {
             width: '640px', disableClose: true,
             data: book
         });
-        this.dialogRef.afterClosed().subscribe(data => {
+        dialogRef.afterClosed().subscribe(data => {
             if (data) {
                 this.unsubscribers.push(this.bookService.create(data).subscribe(newBook => {
                     this.books.push(newBook);
@@ -120,6 +120,7 @@ export class ListBookComponent implements AfterViewInit, OnDestroy {
                 }))
             }
         })
+        this.dialogRef  = dialogRef; 
     }
 
     ngOnDestroy(): void {

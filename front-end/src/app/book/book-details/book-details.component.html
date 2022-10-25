@@ -1,14 +1,15 @@
 <h2 mat-dialog-title>{{book.title}}</h2>
 <mat-dialog-content class="mat-typography">
     <ul>
-        <li>Title: {{book.title}}</li>
-        <li>Author: {{book?.author['fullName']}}</li>
-        <li>Language: {{book?.lang['name']}}</li>
-        <li>Genre: {{book.genre}}</li>
-        <li>Pages: {{book.pageCount}}</li>
+        <li>Название: {{book.title}}</li>
+        <li>Автор: {{book?.author['fullName']}}</li>
+        <li>Язык: {{book?.lang['name']}}</li>
+        <li>Жанр: {{book.genre}}</li>
+        <li>Описание: {{book.description}}</li>
+        <li>Число страниц : {{book.pageCount}}</li>
     </ul>
 
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button mat-dialog-close>закрыть</button>
 </mat-dialog-actions>
