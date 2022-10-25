@@ -99,7 +99,7 @@ describe('BookListComponent', () => {
                 provide: BookService,
                 useValue: {
                     list: () => of(books),
-                    create: (book:any) => of(book)
+                    create: (book: any) => of(book)
                 }
 
             }]
@@ -111,11 +111,11 @@ describe('BookListComponent', () => {
         fixtureBookDetailsComponent = TestBed.createComponent(BookDetailsComponent)
         loader = TestbedHarnessEnvironment.loader(fixtureListBookComponent);
 
-        listBookComponent = fixtureListBookComponent.componentInstance,
-            bookCreateModalFormComponent = fixtureBookCreateModalFormComponent.componentInstance,
-            bookDetailsComponent = fixtureBookDetailsComponent.componentInstance,
+        listBookComponent = fixtureListBookComponent.componentInstance
+        bookCreateModalFormComponent = fixtureBookCreateModalFormComponent.componentInstance
+        bookDetailsComponent = fixtureBookDetailsComponent.componentInstance
 
-            fixtureListBookComponent.detectChanges();
+        fixtureListBookComponent.detectChanges();
         fixtureBookCreateModalFormComponent.detectChanges();
         fixtureBookDetailsComponent.detectChanges();
     });

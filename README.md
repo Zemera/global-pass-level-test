@@ -15,7 +15,7 @@
 - запустить 
  `$ npm run start`
 
- ## Front-end(Angular )
+## Front-end(Angular )
 - установка зависимостей
 `$ cd front-end & yarn install`
 
