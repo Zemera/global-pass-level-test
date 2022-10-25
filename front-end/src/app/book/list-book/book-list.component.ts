@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { merge, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { IAuthor } from 'src/app/orm/models/author.interface';
 import { Book, IBook } from 'src/app/orm/models/book.model';
 import { ILanguage } from 'src/app/orm/models/language.interface';
@@ -23,13 +23,15 @@ export class ListBookComponent implements AfterViewInit, OnDestroy {
     dataSource: MatTableDataSource<Book>;
     books: Book[] = [];
     unsubscribers: Subscription[] = []
-    filterForm!: FormGroup
+    filterForm!: FormGroup ;
+
+    public dialogRef!: MatDialogRef<BookCreateModalFormComponent>
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
 
     constructor(
-        private bookService: BookService,
+        public bookService: BookService,
         private formBuilder: FormBuilder,
         public dialog: MatDialog,
     ) {
@@ -106,11 +108,11 @@ export class ListBookComponent implements AfterViewInit, OnDestroy {
     }
 
     openDialog(book?: IBook): void {
-        const dialogRef = this.dialog.open(BookCreateModalFormComponent, {
+        this.dialogRef = this.dialog.open(BookCreateModalFormComponent, {
             width: '640px', disableClose: true,
             data: book
         });
-        dialogRef.afterClosed().subscribe(data => {
+        this.dialogRef.afterClosed().subscribe(data => {
             if (data) {
                 this.unsubscribers.push(this.bookService.create(data).subscribe(newBook => {
                     this.books.push(newBook);

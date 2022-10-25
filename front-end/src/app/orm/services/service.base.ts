@@ -15,7 +15,9 @@ export abstract class BaseService<T> {
 
     // Create new T object
     public create(item: T): Observable<T> {
-        return this.httpClient.post<T>(`${this.url}${this.endpoint}`, item);
+        return this.httpClient.post<T>(`${this.url}${this.endpoint}`, item).pipe(
+            map(value =>  value as T)
+        );
     }
 
     // Update   T object

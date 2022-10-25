@@ -8,9 +8,9 @@
                 <mat-grid-tile>
                     <div class="text-inside">
                         <mat-form-field>
-                            <input matInput placeholder="Title" formControlName="title" required>
-                            <mat-error *ngIf="addCusForm.controls['title'].hasError('required')">
-                                Please enter the title
+                            <input matInput placeholder="название" formControlName="title" required>
+                            <mat-error id="titleError" *ngIf="addCusForm.controls['title'].hasError('required')">
+                                Пожалуйста, введите название
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -18,9 +18,9 @@
                 <mat-grid-tile>
                     <div class="text-inside">
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Genre" formControlName="genre" required>
-                            <mat-error *ngIf="addCusForm.controls['genre'].hasError('required')">
-                                Please enter the genre
+                            <input matInput placeholder="жанр" formControlName="genre" required>
+                            <mat-error id="genreError" *ngIf="addCusForm.controls['genre'].hasError('required')">
+                                Пожалуйста, укажите жанр
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -28,9 +28,9 @@
                 <mat-grid-tile>
                     <div class="text-inside">
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="number of page" formControlName="pageCount" required>
-                            <mat-error *ngIf="addCusForm.controls['pageCount'].hasError('required')">
-                                number of page is required
+                            <input matInput placeholder="число страниц" formControlName="pageCount" required>
+                            <mat-error id="" *ngIf="addCusForm.controls['pageCount'].hasError('required')">
+                                необходимо число страниц
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -38,20 +38,11 @@
                 <mat-grid-tile>
                     <div class="text-inside">
                         <mat-form-field>
-                            <textarea matInput formControlName="description" placeholder="description"></textarea>
+                            <textarea matInput formControlName="description" placeholder="описание"></textarea>
                         </mat-form-field>
                     </div>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                    <!-- <mat-form-field>
-                        <mat-label>Автор</mat-label>
-                        <mat-select formControlName="author">
-                            <mat-option value="emmanuel">Emmanuel</mat-option>
-                            <mat-option *ngFor="let author of $authors | async" [value]="author.fullName">
-                                {{author.fullName}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field> -->
                     <mat-form-field class="example-chip-list">
                         <mat-label>Author</mat-label>
                         <mat-chip-list [multiple]="false" #chipList aria-label="Author selection">
@@ -61,7 +52,7 @@
                                     <mat-icon>cancel</mat-icon>
                                 </button>
                             </mat-chip>
-                            <input placeholder="New author" #fruitInput formControlName="author" [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addAuthor($event)
+                            <input placeholder="New author" #authorInput formControlName="author" [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addAuthor($event)
                             ">
                         </mat-chip-list>
                         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedAuthor($event)">
@@ -86,8 +77,8 @@
                 </mat-grid-tile> -->
             </mat-grid-list>
             <div class="btn-sec">
-                <button mat-raised-button type="submit" color="primary" class="Update-btn" (click)="submitData()">Save</button>
-                <button mat-raised-button type="button" class="Discard-btn" [mat-dialog-close]="">Cancel</button>
+                <button mat-raised-button type="submit" id="submitBtn" color="primary" class="Update-btn" (click)="submitData()">Save</button>
+                <button mat-raised-button id="cancelBtn" type="button" class="Discard-btn" [mat-dialog-close]="">Cancel</button>
             </div>
 
         </form>

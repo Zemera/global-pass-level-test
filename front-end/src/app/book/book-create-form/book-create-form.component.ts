@@ -24,7 +24,7 @@ export class BookCreateModalFormComponent {
   languages = languages;
   $authors: Observable<IAuthor[]>;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('authorInput') authorInput!: ElementRef<HTMLInputElement>;
 
 
   constructor(
@@ -87,11 +87,11 @@ export class BookCreateModalFormComponent {
 
   removeAuthor(): void {
     this.addCusForm.controls['author'].setValue(null);
-    this.fruitInput.nativeElement.value = '';
+    this.authorInput.nativeElement.value = '';
   }
 
   selectedAuthor(event: MatAutocompleteSelectedEvent): void {
-    this.fruitInput.nativeElement.value = event.option.viewValue;
+    this.authorInput.nativeElement.value = event.option.viewValue;
     this.addCusForm.controls['author'].setValue(event.option.viewValue);
   }
 
