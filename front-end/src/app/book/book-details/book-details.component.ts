@@ -9,7 +9,7 @@ import { Book, IBook } from 'src/app/orm/models/book.model';
 })
 export class BookDetailsComponent {
 
-  @Input() book!:Book;
+  @Input() book!:any;
   constructor(
 
   ) {
