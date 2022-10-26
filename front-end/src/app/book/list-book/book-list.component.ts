@@ -15,7 +15,6 @@ import { BookCreateModalFormComponent } from '../book-create-form/book-create-fo
     selector: 'glp-book-list',
     templateUrl: './book-list.component.html',
     styleUrls: ['./book-list.component.scss'],
-    encapsulation: ViewEncapsulation.None,
 })
 export class ListBookComponent implements AfterViewInit, OnDestroy {
 

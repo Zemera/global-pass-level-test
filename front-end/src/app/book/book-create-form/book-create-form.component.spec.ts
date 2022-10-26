@@ -6,18 +6,21 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatRippleModule } from "@angular/material/core";
-import { MatDialogModule } from "@angular/material/dialog";
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatListModule } from "@angular/material/list";
 import { MatSelectModule } from "@angular/material/select";
+import { By } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { of } from "rxjs";
 import { BookService } from "src/app/orm/services/book.service";
+import { BookDetailsComponent } from "../book-details/book-details.component";
 import { BookCreateModalFormComponent } from "./book-create-form.component";
 
-describe('BookListComponent', () => {
+describe('BookCreateModalFormComponent', () => {
     let component: BookCreateModalFormComponent;
     let fixture: ComponentFixture<BookCreateModalFormComponent>;
 
@@ -32,7 +35,7 @@ describe('BookListComponent', () => {
     };
     beforeEach(async () => {
         TestBed.configureTestingModule({
-            declarations: [BookCreateModalFormComponent],
+            declarations: [BookCreateModalFormComponent, BookDetailsComponent],
             imports: [
                 HttpClientModule,
                 MatChipsModule,
@@ -51,18 +54,25 @@ describe('BookListComponent', () => {
                 FormsModule,
                 MatDialogModule,
             ],
-            providers: [BookService]
+            providers: [BookService
+                , {
+                    provide: MatDialogRef, useValue: {
+                        close: (data: any) => { return data },
+                        afterClosed: () => { return of(book) }
+                    }
+                },
+                { provide: MAT_DIALOG_DATA, useValue: [] },]
         }).compileComponents();
 
     });
 
-    beforeEach(() => { // 3
+    beforeEach(async () => { // 3
         fixture = TestBed.createComponent(BookCreateModalFormComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    it('#BookListComponent should create', () => {
+    it('#BookCreateModalFormComponent should create', () => {
         expect(component).toBeTruthy();
     });
 
@@ -74,32 +84,41 @@ describe('BookListComponent', () => {
         controls['genre'].setValue(book.genre)
         controls['pageCount'].setValue(book.pageCount)
         controls['description'].setValue(book.description)
-        const btn = (fixture.debugElement.nativeElement.querySelector('#submitBtn') as HTMLButtonElement);
-        btn.click()
+        component.book = (null as any);
+        fixture.detectChanges();
+        const btn = fixture.debugElement.query(By.css('#submitBtn'));
+        btn.nativeElement.click()
+
         expect(component.addCusForm.valid).toBe(true)
         component.dialogRef.afterClosed().subscribe(object => {
             expect(object).toEqual(book)
-            
             done()
         })
     });
 
-    it('#BookListComponent тест-должна возвращать ошибки обязательных полей формы  ', async () => {
+    it('#BookCreateModalFormComponent тест-должна возвращать ошибки обязательных полей формы  ', async () => {
 
         const controls = component.addCusForm.controls;
         const title = controls['title']
         const genre = controls['genre']
-        const genreErrorElement = (fixture.debugElement.nativeElement.querySelector('#genreError'));
-        const titleErrorElement = (fixture.debugElement.nativeElement.querySelector('#titleError'));
-        const btn = (fixture.debugElement.nativeElement.querySelector('#submitBtn') as HTMLButtonElement);
+
+        component.book = (null as any);
+        fixture.detectChanges()
+
+        const btn = fixture.debugElement.query(By.css('#submitBtn'))
 
         genre.setValue('')
         title.setValue('')
-        btn.click()
+        btn.nativeElement.click()
+
+        fixture.detectChanges()
+
+        const genreErrorElement = (fixture.debugElement.query(By.css('#genreError'))) ;
+        const titleErrorElement = (fixture.debugElement.query(By.css('#titleError')));
 
         expect(component.addCusForm.valid).toBe(false)
-        expect(titleErrorElement.innerHTML).toBe('Пожалуйста, введите название')
-        expect(genreErrorElement.innerHTML).toBe('Пожалуйста, укажите жанр')
+        expect(titleErrorElement.nativeElement.innerHTML.trim()).toBe('Пожалуйста, введите название')
+        expect(genreErrorElement.nativeElement.innerHTML.trim()).toBe('Пожалуйста, укажите жанр')
     });
 
 })

@@ -94,8 +94,8 @@ describe('BookListComponent', () => {
             providers: [BookService]
         }).compileComponents();
 
-        loader = TestbedHarnessEnvironment.loader(fixture);
         fixture = TestBed.createComponent(ListBookComponent);
+        loader = TestbedHarnessEnvironment.loader(fixture);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -2,13 +2,13 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { ReactiveFormsModule, FormsModule, FormGroup } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatNativeDateModule, MatRippleModule } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatDialogModule } from "@angular/material/dialog";
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatIconModule } from "@angular/material/icon";
@@ -30,8 +30,10 @@ import { of } from "rxjs";
 import { ListBookComponent } from "./list-book/book-list.component";
 import { IAuthor } from "../orm/models/author.interface";
 import { ILanguage } from "../orm/models/language.interface";
+import { FilterPropretyBookValue } from "./list-book/filterBookValue.pipe";
+import { By } from "@angular/platform-browser";
 
-describe('BookListComponent', () => {
+describe('BookModule', () => {
     let listBookComponent: ListBookComponent;
     let bookCreateModalFormComponent: BookCreateModalFormComponent;
     let bookDetailsComponent: BookDetailsComponent;
@@ -99,10 +101,24 @@ describe('BookListComponent', () => {
                 provide: BookService,
                 useValue: {
                     list: () => of(books),
-                    create: (book: any) => of(book)
-                }
-
-            }]
+                    create: (book: any) => of(book),
+                    authorList: () => of([])
+                },
+            },
+            {
+                provide: MatDialogRef, useValue: {
+                    close: (data: any) => { return data },
+                    afterClosed: () => { return of(books[0]) }
+                },
+            },
+            { provide: MAT_DIALOG_DATA, useValue: [] }
+            ],
+            declarations: [
+                ListBookComponent,
+                BookCreateModalFormComponent,
+                FilterPropretyBookValue,
+                BookDetailsComponent
+            ],
         }).compileComponents();
 
 
@@ -120,27 +136,28 @@ describe('BookListComponent', () => {
         fixtureBookDetailsComponent.detectChanges();
     });
 
-    it('#BookModule инициализация компонентов книжного модуля ', () => {
+    it('#инициализация компонентов книжного модуля ', () => {
         expect(listBookComponent).toBeTruthy();
         expect(bookCreateModalFormComponent).toBeTruthy();
         expect(bookDetailsComponent).toBeTruthy();
     });
 
-    it('#BookModule Интеграции книжного сервиса и компонента списка книг ', () => {
+    it('#Интеграции книжного сервиса и компонента списка книг ', () => {
         expect(listBookComponent.books).toEqual(books)
     });
 
-    it('#BookModule интеграция открыть диалог из списка книга компонент в список создать компонент ', () => {
-        const addBtn = (fixtureBookDetailsComponent.debugElement.nativeElement.querySelector('#add-button') as HTMLButtonElement);
+    it('#интеграция открыть диалог из списка книга компонент в список создать компонент ', () => {
+        expect(bookCreateModalFormComponent.addCusForm).toBeInstanceOf(FormGroup)
+        const addBtn = fixtureListBookComponent.debugElement.query(By.css('#add-button'))
         // Open dialog 
-        addBtn.click()
-        expect(bookCreateModalFormComponent.addCusForm).toBeDefined()
+        addBtn.nativeElement.click()
+        expect(bookCreateModalFormComponent.addCusForm).toBeInstanceOf(FormGroup)
 
     });
 
+    it('#интеграционный тест передачи информации между компонентом диалога создания книги и компонентом списка книг', async (done: DoneFn) => {
+        const addBtn = (fixtureListBookComponent.debugElement.nativeElement.querySelector('#add-button') as HTMLButtonElement);
 
-    it('#BookModule интеграционный тест передачи информации между компонентом диалога создания книги и компонентом списка книг', (done: DoneFn) => {
-        const addBtn = (fixtureBookDetailsComponent.debugElement.nativeElement.querySelector('#add-button') as HTMLButtonElement);
         const controls = bookCreateModalFormComponent.addCusForm.controls;
         controls['title'].setValue(books[0].title)
         controls['lang'].setValue((books[0].lang as ILanguage).name)
@@ -148,16 +165,23 @@ describe('BookListComponent', () => {
         controls['genre'].setValue(books[0].genre)
         controls['pageCount'].setValue(books[0].pageCount)
         controls['description'].setValue(books[0].description)
+
+        bookCreateModalFormComponent.book = (null as any)
+        fixtureBookCreateModalFormComponent.detectChanges()
         const submit = (fixtureBookCreateModalFormComponent.debugElement.nativeElement.querySelector('#submitBtn') as HTMLButtonElement);
         // Open dialog 
         addBtn.click()
         // Submit form
         submit.click()
 
-        listBookComponent.dialogRef.afterClosed().subscribe(object => {
-            expect(object.title).toEqual(books[0].title)
-            done()
-        })
+        spyOn(listBookComponent.dialog, 'open')
+            .and
+            .returnValue({ afterClosed: () => of(books) } as MatDialogRef<typeof listBookComponent>);
+
+        const book = await Promise.all(listBookComponent.books.filter(e => e.title === books[0].title))
+
+        expect(book.length).toBeGreaterThanOrEqual(1)
+        done()
     });
 
 

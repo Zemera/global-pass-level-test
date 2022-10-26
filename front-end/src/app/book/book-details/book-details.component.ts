@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IBook } from 'src/app/orm/models/book.model';
+import { Book, IBook } from 'src/app/orm/models/book.model';
 
 
 @Component({
@@ -9,7 +9,7 @@ import { IBook } from 'src/app/orm/models/book.model';
 })
 export class BookDetailsComponent {
 
-  @Input() book!: any;
+  @Input() book!:Book;
   constructor(
 
   ) {
