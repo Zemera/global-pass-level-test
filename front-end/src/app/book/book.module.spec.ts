@@ -155,7 +155,7 @@ describe('BookModule', () => {
 
     });
 
-    it('#интеграционный тест передачи информации между компонентом диалога создания книги и компонентом списка книг', async (done: DoneFn) => {
+    it('#интеграционный тест передачи информации между компонентом диалога создания книги и компонентом списка книг', async () => {
         const addBtn = (fixtureListBookComponent.debugElement.nativeElement.querySelector('#add-button') as HTMLButtonElement);
 
         const controls = bookCreateModalFormComponent.addCusForm.controls;
@@ -179,9 +179,8 @@ describe('BookModule', () => {
             .returnValue({ afterClosed: () => of(books) } as MatDialogRef<typeof listBookComponent>);
 
         const book = await Promise.all(listBookComponent.books.filter(e => e.title === books[0].title))
-
         expect(book.length).toBeGreaterThanOrEqual(1)
-        done()
+        
     });
 
 
