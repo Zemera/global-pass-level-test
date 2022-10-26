@@ -29,6 +29,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatTableHarness } from '@angular/material/table/testing';
 import { IAuthor } from "src/app/orm/models/author.interface";
 import { ILanguage } from "src/app/orm/models/language.interface";
+import { of } from "rxjs";
 
 describe('BookListComponent', () => {
     let component: ListBookComponent;
@@ -91,7 +92,14 @@ describe('BookListComponent', () => {
                 MatDatepickerModule,
                 MatDialogModule,
             ],
-            providers: [BookService]
+            providers: [{
+                provide: BookService,
+                useValue: {
+                    list: () => of(books),
+                    create: (book: any) => of(book)
+                }
+
+            }]
         }).compileComponents();
 
         fixture = TestBed.createComponent(ListBookComponent);
